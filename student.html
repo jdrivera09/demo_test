@@ -1,0 +1,131 @@
+<div ng-controller="studentCtr" class="row">
+    <div class="col-12 mb-3 mt-3">
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" ng-model="search"
+                    class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#modal_add">
+                    Add Student
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="student in students 
+                        | filter:search">
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.lastname }}</td>
+                        <td>{{ student.firstname }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>
+                            <button ng-click="delete(student.id)"
+                                class="btn btn-danger btn-sm">
+                                <span class="fa fa-remove"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+    <div class="modal fade" id="modal_add" role="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Student</h3>
+                    <button type="button" class="close" 
+                        data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form name="addForm" ng-submit="add()" class="form">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lastname"
+                                ng-model="lastname" required
+                                class="form-control">
+                            <!-- <span ng-show="addForm.lastname.$invalid">*</span> -->
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="firstname"
+                                ng-model="firstname" required
+                                class="form-control">
+                            <!-- <span ng-show="addForm.firstname.$invalid">*</span> -->
+                        </div>
+
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="city"
+                                ng-model="city" required
+                                class="form-control">
+                            <!-- <span ng-show="addForm.city.$invalid">*</span> -->
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" ng-disabled="addForm.$invalid"
+                                class="form-control btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+<!-- <script src="js/angular.min.js"></script> -->
+<!-- <script>
+    var app = angular.module('studentApp',[]);
+    app.controller('studentCtr',function($scope,$http){
+        $scope.get = function() {
+            $http.get("php/get.php")
+                .then(function(res){
+                   $scope.students = res.data;
+                });
+        }
+
+        $scope.get();
+
+        $scope.add = function() {
+            $http.post('php/add.php',{
+                'lastname':$scope.lastname,
+                'firstname':$scope.firstname,
+                'address':$scope.city
+            }).then(function(res) {
+                $scope.get();
+                $scope.lastname = "";
+                $scope.firstname = "";
+                $scope.city = "";
+            });
+        }
+
+        $scope.delete = function(id) {
+            $http.post('php/delete.php',{ 
+                'id':id
+            }).then(function(res){
+                $scope.get();
+            });
+        }
+    });
+
+</script> -->
